@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,19 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		phrase = phrase.replaceAll("[^A-Za-z]+", " ");
+		String[] split = phrase.split(" ");
+		char[] letters = new char[phrase.length()];
+		
+		for (int i = 0; i < split.length; i++ ) {
+			String s = split[i];
+			letters[i] = s.charAt(0);
+		}
+		
+		String tla = new String(letters);
+		return tla;
 	}
+
 
 	/**
 	 * 3. Determine if a triangle is equilateral, isosceles, or scalene. An
@@ -85,16 +97,22 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
+			if (this.sideOne == this.sideTwo && this.sideTwo == this.sideThree)
+				return true;
 			return false;
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
+			if (this.sideOne == this.sideTwo || this.sideTwo == this.sideThree || this.sideOne == this.sideThree)
+				return true;
 			return false;
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
+			if (this.sideOne != this.sideTwo)
+				return true;
 			return false;
 		}
 
@@ -117,7 +135,36 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		String[] one = new String[] {"A","E","I","O","U","L","N","R","S","T"};
+		String[] two = new String[] {"D","G"};
+		String[] three = new String[] {"B","C","M","P"};
+		String[] four = new String[] {"F","H","V","W","Y"};
+		String[] eight = new String[] {"J","X"};
+		String[] ten = new String[] {"Q","Z"};
+		
+		String[] splitString = string.toUpperCase().split("");
+		
+		int total = 0;
+	
+		for(String a: splitString)
+			if (Arrays.asList(one).contains(a)) {
+				total++;
+			} else if (Arrays.asList(two).contains(a)) {
+				total += 2;
+			} else if (Arrays.asList(three).contains(a)) {
+				total += 3;
+			} else if (Arrays.asList(four).contains(a)) {
+				total += 4;
+			} else if (Arrays.asList(eight).contains(a)) {
+				total += 8;
+			} else if (Arrays.asList(ten).contains(a)) {
+				total += 10;
+			} else {
+				total += 5;
+			}
+		
+		return total;
 	}
 
 	/**
