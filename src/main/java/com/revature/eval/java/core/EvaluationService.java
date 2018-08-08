@@ -42,6 +42,7 @@ public class EvaluationService {
 		}
 		
 		String tla = new String(letters);
+		tla = tla.trim().toUpperCase();
 		return tla;
 	}
 
@@ -200,7 +201,11 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String numbers = string.replaceAll("[^0-9]", "");
+		
+		if (numbers.length() != 10) 
+			throw new IllegalArgumentException("number must be ten digits.");	
+		return numbers;		
 	}
 
 	/**
