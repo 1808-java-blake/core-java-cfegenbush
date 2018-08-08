@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -312,7 +313,29 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String[] vowels = new String[] {"a","e","i","o","u"};
+		String[] words = string.split(" ");
+		String translatedWord = new String();
+		ArrayList<String> result = new ArrayList<String>();
+		
+		for (String word: words) {
+			for (int i = 0; i < word.length(); i++) {
+				if (Arrays.asList(vowels).contains(String.valueOf(word.charAt(i)))) {
+					if (i == 0) {
+						translatedWord = word + "ay";
+						result.add(translatedWord);
+						break;
+					} else {
+						String consonant = word.substring(0, i);
+						translatedWord = word.substring(i) + consonant + "ay";
+						result.add(translatedWord);
+						break;
+					}
+				}
+			}
+		}
+		String translation = String.join(" ", result);
+		return translation;
 	}
 
 	/**
@@ -332,7 +355,21 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		String inputAsString = String.valueOf(input);
+		String[] numbers = inputAsString.split("");
+		double total = 0;
+		
+		for(String number: numbers) {
+			double num = Double.valueOf(number);
+			num = Math.pow(num, (double) inputAsString.length());
+			total += num;
+		}
+		
+		if (total == input) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

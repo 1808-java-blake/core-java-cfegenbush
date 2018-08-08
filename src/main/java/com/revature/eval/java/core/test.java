@@ -1,43 +1,31 @@
 package com.revature.eval.java.core;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class test {
 	
 	public static void main(String[] args) {
 		test t = new test();
-		t.wordCount("olly olly in come free");
+		
 		
 	}
 	
 	/**
-	 * 6. Given a phrase, count the occurrences of each word in that phrase.
+	 * 10. Compute the prime factors of a given natural number.
 	 * 
-	 * For example for the input "olly olly in come free" olly: 2 in: 1 come: 1
-	 * free: 1
+	 * A prime number is only evenly divisible by itself and 1.
 	 * 
-	 * @param string
+	 * Note that 1 is not a prime number.
+	 * 
+	 * @param l
 	 * @return
 	 */
-	public Map<String, Integer> wordCount(String string) {
+	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		String[] words = string.split(" ");
-		
-		Map<String, Integer> totals = new HashMap<>();
-		
-		for (String word: words) {
-			if (totals.containsKey(word)) {
-				totals.replace(word, totals.get(word) + 1);
-			} else {
-				totals.put(word, 1);
-			}
-		}
-		
-		String result = totals.toString();
-		System.out.println(result);
-		
-		return totals; 
+		return null;
 	}
-
+	
+	
 }
