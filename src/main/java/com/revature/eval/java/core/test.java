@@ -2,12 +2,14 @@ package com.revature.eval.java.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class test {
 	
 	public static void main(String[] args) {
 		test t = new test();
+		t.calculatePrimeFactorsOf(9L);
 		
 		
 	}
@@ -24,7 +26,18 @@ public class test {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		List<Long> primes = new ArrayList<>();
+		long input = l;
+		
+		for (long i = 2L; i <= input; i++) {
+			if (input % i == 0) {
+				primes.add(i);
+				input /= i;
+				i--;
+			}
+		}
+		System.out.println(Arrays.toString(primes.toArray()));
+		return primes;
 	}
 	
 	
