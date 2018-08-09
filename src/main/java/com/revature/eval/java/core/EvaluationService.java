@@ -434,9 +434,71 @@ public class EvaluationService {
 
 		public String rotate(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			Map<Character,Integer> alphabetValues = new HashMap<Character,Integer>(){{
+				put('a',1);
+				put('b',2);
+				put('c',3);
+				put('d',4);
+				put('e',5);
+				put('f',6);
+				put('g',7);
+				put('h',8);
+				put('i',9);
+				put('j',10);
+				put('k',11);
+				put('l',12);
+				put('m',13);
+				put('n',14);
+				put('o',15);
+				put('p',16);
+				put('q',17);
+				put('r',18);
+				put('s',19);
+				put('t',20);
+				put('u',21);
+				put('v',22);
+				put('w',23);
+				put('x',24);
+				put('y',25);
+				put('z',26);
+			}};
+			
+			String copyOfInput = string;
+			StringBuilder sb = new StringBuilder();
+			int counter = 0;
+			
+			for (char c: copyOfInput.toCharArray()) {
+				
+				boolean uppercase = false;
+				
+				if (Character.isUpperCase(c)) {
+					uppercase = true;
+					c = Character.toLowerCase(c);
+				}
+				
+				if (alphabetValues.containsKey(c)) {
+					
+					int index = alphabetValues.get(c);
+					index += key;
+					if (index > 26) {
+						int newIndex = index - 27;
+						sb.append(alphabetValues.keySet().toArray()[newIndex]);
+					} else {
+						sb.append(alphabetValues.keySet().toArray()[index - 1]);
+					}
+				} else {
+					sb.append(c);
+				}
+				
+				if (uppercase == true) {
+					sb.setCharAt(counter, Character.toUpperCase(sb.charAt(counter)));
+				}
+				
+				counter++;
+			}
+			String cipher = sb.toString();
+			return cipher;
 		}
-
 	}
 
 	/**
