@@ -515,7 +515,18 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		List<Integer> primes = new ArrayList<>();
+		for (int x = 2; x <= i; x++) {
+			if (x % 2 == 0 ) {
+				break;
+			} else {
+				primes.add(x);
+			}
+		}
+		
+		int nthPrime = primes.get(primes.size() - 1);
+		System.out.println(nthPrime);
+		return nthPrime;
 	}
 
 	/**
@@ -544,15 +555,55 @@ public class EvaluationService {
 	 */
 	static class AtbashCipher {
 
-		/**
-		 * Question 13
-		 * 
-		 * @param string
-		 * @return
-		 */
+		public static Map<String,String> cipherBet = new HashMap<String,String>(){{
+			put("a","z");
+			put("b","y");
+			put("c","x");
+			put("d","w");
+			put("e","v");
+			put("f","u");
+			put("g","t");
+			put("h","s");
+			put("i","r");
+			put("j","q");
+			put("k","p");
+			put("l","o");
+			put("m","n");
+			put("n","m");
+			put("o","l");
+			put("p","k");
+			put("q","j");
+			put("r","i");
+			put("s","h");
+			put("t","g");
+			put("u","f");
+			put("v","e");
+			put("w","d");
+			put("x","c");
+			put("y","b");
+			put("z","a");
+		}};
+		
+		
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String numbers = "1234567890";
+			String[] splitString = string.toLowerCase().replaceAll("[^A-Za-z0-9]", "").split("");
+			StringBuilder sb = new StringBuilder();
+			int i = 0;
+			for (String s: splitString) {
+				if (cipherBet.containsKey(s)) {
+					sb.append(cipherBet.get(s));
+					i++;
+				} else if (numbers.contains(s)) {
+					sb.append(s);
+					i++;
+				}
+				if (i % 5 == 0) {
+					sb.append(" ");
+				}
+			}
+			String cipherString = sb.toString().trim();
+			return cipherString;
 		}
 
 		/**
@@ -562,8 +613,8 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String decoded = encode(string);
+			return decoded.replaceAll(" ", "");
 		}
 	}
 
@@ -591,7 +642,28 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		
+		String[] isbn = string.replaceAll("\\-", "").replaceAll("[^0-9X]","").split("");
+		int total = 0;
+		boolean valid = false;
+		if (isbn.length == 10) {
+			int i = 10;
+			for(String s: isbn) {
+				if (s.equals("X")) {
+					s = "10";
+					int num = Integer.parseInt(s);
+					total += num * i;
+					i--;
+				}
+				int num = Integer.valueOf(s);
+				total += num * i;
+				i--;
+			}
+		}
+		if (total > 0 && total % 11 == 0) {
+			valid = true;
+		}
+		return valid;
 	}
 
 	/**
@@ -713,7 +785,22 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		String[] splitString = string.substring(8).replaceAll("\\b\\sby\\b|[?]", "").split(" ");
+		int firstNum = Integer.parseInt(splitString[0]);
+		int secNum = Integer.parseInt(splitString[2]);
+		String operator = splitString[1];
+		int result = 0;
+		
+		switch(operator) {
+			case "plus": result = firstNum + secNum;
+				break;
+			case "minus": result = firstNum - secNum;
+				break;
+			case "multiplied": result = firstNum * secNum;
+				break;
+			default: result = firstNum / secNum;
+		}
+		return result;
 	}
 
 }
