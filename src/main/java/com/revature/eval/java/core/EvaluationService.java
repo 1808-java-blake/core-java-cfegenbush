@@ -1,12 +1,15 @@
 package com.revature.eval.java.core;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class EvaluationService {
 
@@ -272,12 +275,25 @@ public class EvaluationService {
 	 * binary search is a dichotomic divide and conquer search algorithm.
 	 * 
 	 */
-	static class BinarySearch<T> {
+	static class BinarySearch<T extends Comparable<T>> {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
 			// TODO Write an implementation for this method declaration
-			return 0;
+			int index = -1;
+			int mid = sortedList.size() / 2;
+			T comparableIndex = sortedList.get(mid);
+			
+			if (t.compareTo(comparableIndex) == 0) {
+				index = mid;
+			} else if (t.compareTo(comparableIndex) > 0) {
+				BinarySearch<T> upperLimit = new BinarySearch<T>(sortedList.subList(mid + 1, sortedList.size()));
+				index = upperLimit.indexOf(t) + mid + 1;
+			} else if (t.compareTo(comparableIndex) < 0) {
+				BinarySearch<T> lowerLimit = new BinarySearch<T>(sortedList.subList(0, mid));
+				index = lowerLimit.indexOf(t);
+			}
+			return index;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -321,7 +337,8 @@ public class EvaluationService {
 		
 		for (String word: words) {
 			for (int i = 0; i < word.length(); i++) {
-				if (Arrays.asList(vowels).contains(String.valueOf(word.charAt(i)))) {
+				if (Arrays.asList(vowels).contains(String.valueOf(word.charAt(i))) 
+						& !String.valueOf(word.charAt(i+1)).equals("i")) {
 					if (i == 0) {
 						translatedWord = word + "ay";
 						result.add(translatedWord);
@@ -514,13 +531,6 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		// prime # is a number divisible by 1 and itself
-		// 1 is not a prime number
-		// 2 is a default, every number after 2 is odd
-		// determine if a number is prime, if it is then add it
-		// keep track of that numbers index
-		// use another number to track how many numbers you have added, stop at the nth number
 		List<Integer> primes = new ArrayList<Integer>(Arrays.asList(2)); 
 		if (i < 1) {
 			throw new IllegalArgumentException();
@@ -727,7 +737,16 @@ public boolean isPangram(String string) {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		if (given instanceof LocalDate) {
+			LocalDateTime ldt = LocalDate.from(given).atTime(0, 0);
+			given = ldt;
+			
+		} else if (given instanceof LocalDateTime) {
+			LocalDateTime ldt = LocalDateTime.from(given);
+			given = ldt;
+		}
+		
+		return given.plus(1000000000, ChronoUnit.SECONDS);
 	}
 
 	/**
@@ -794,12 +813,6 @@ public boolean isPangram(String string) {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		// remove all spaces
-		// iterate through string by converting to character array
-		// start at the right
-		// if it is not a digit - return false
-		// else - parseInt
 		
 		String noSpaces = string.replaceAll("\\s+", "");
 		for (char c: noSpaces.toCharArray()) {
