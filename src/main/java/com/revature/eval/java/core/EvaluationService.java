@@ -4,9 +4,9 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class EvaluationService {
 
@@ -515,18 +515,34 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		List<Integer> primes = new ArrayList<>();
-		for (int x = 2; x <= i; x++) {
-			if (x % 2 == 0 ) {
-				break;
-			} else {
-				primes.add(x);
-			}
+		// prime # is a number divisible by 1 and itself
+		// 1 is not a prime number
+		// 2 is a default, every number after 2 is odd
+		// determine if a number is prime, if it is then add it
+		// keep track of that numbers index
+		// use another number to track how many numbers you have added, stop at the nth number
+		List<Integer> primes = new ArrayList<Integer>(Arrays.asList(2)); 
+		if (i < 1) {
+			throw new IllegalArgumentException();
+		} else if (i == 1) {
+			return primes.get(0);
 		}
 		
-		int nthPrime = primes.get(primes.size() - 1);
-		System.out.println(nthPrime);
-		return nthPrime;
+		int x = 1;
+		for (int j = 3; x < i; j+=2) {
+			boolean isPrime = true;
+			for(int y = 2; y < j; y++) {
+				if (j % y == 0) {
+					isPrime = false;
+				}
+			}
+			if (isPrime != false) {
+				primes.add(j);
+				x++;
+			}
+		}
+		return primes.get(i - 1);
+		
 	}
 
 	/**
@@ -679,8 +695,25 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public boolean isPangram(String string) {
+public boolean isPangram(String string) {
+		
 		// TODO Write an implementation for this method declaration
+		String[] alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l",
+				"m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+		List<String> dynamicAlphabet = new ArrayList<String>(Arrays.asList(alphabet));
+		if (string.length() == 0) {
+			return false;
+		}
+		
+		String[] splitString = string.replaceAll(" ", "").split("");
+		for (String s: splitString) {
+			if (dynamicAlphabet.contains(s)) {
+				dynamicAlphabet.remove(s);
+			}
+		}
+		if (dynamicAlphabet.size() == 0) {
+			return true;
+		}
 		return false;
 	}
 
@@ -712,7 +745,16 @@ public class EvaluationService {
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		List<Integer> multiples = new ArrayList<Integer>();
+		for (int x = 1; x < i; x++) {
+			for(int numInSet: set) {
+				if (x % numInSet == 0 & !multiples.contains(x)) {
+					multiples.add(x);
+				}
+			}
+		}
+		int total = multiples.stream().mapToInt(Integer::intValue).sum();
+		return total;
 	}
 
 	/**
@@ -753,6 +795,43 @@ public class EvaluationService {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
+		// remove all spaces
+		// iterate through string by converting to character array
+		// start at the right
+		// if it is not a digit - return false
+		// else - parseInt
+		
+		String noSpaces = string.replaceAll("\\s+", "");
+		for (char c: noSpaces.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				return false;
+			}
+		}
+		
+		String[] splitString = noSpaces.split("");
+		StringBuilder sb = new StringBuilder();
+		for (int i = splitString.length - 1; i >= 0; i--) {
+			int x = Integer.parseInt(splitString[i]);
+			if (i % 2 != 0) {
+				x *= 2;
+				if (x > 9) {
+					x -= 9;
+					sb.append(x);
+				} else {
+					sb.append(x);
+				}
+			} else {
+				sb.append(x);
+			}
+		}
+		String[] numbers = sb.toString().split("");
+		int sum = 0;
+		for (String s: numbers) {
+			sum += Integer.parseInt(s);
+		}
+		if (sum % 10 == 0) {
+			return true;
+		}
 		return false;
 	}
 
